@@ -150,8 +150,8 @@ const scrollActive = () =>{
 window.addEventListener('scroll', scrollActive)
 /*=============== DARK LIGHT THEME ===============*/ 
 const themeButton = document.getElementById('theme-button')
-const darkTheme = 'dark-theme'
-const iconTheme = 'bx-sun'
+const darkTheme = 'dark-theme'  
+const iconTheme = 'ri-sun-line'
 
 //previously selected topic(if user selected)
 const selectedTheme = localStorage.getItem('selected-theme')
@@ -159,5 +159,36 @@ const selectedIcon = localStorage.getItem('selected-icon')
 
 //we obtain the current theme that the interface has by validating the dark-theme class
 const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
+const getCurrentIcon = () => themeButton.classList.contains(darkTheme) ? 'ri-moon-line' : 'ri-sun-line'
+
+//we validate if the user previously chose a topic
+if (selectedTheme) {
+    //if the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark theme
+    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'] (darkTheme)
+    themeButton.classList[selectedIcon === 'ri-moon-line' ? 'add' : 'remove'](iconTheme )
+}
+
+//activate / deactivate the button manually with the button
+themeButton.addEventListener('click', () =>{
+    //add or remove the dark / icon theme
+    document.body.classList.toggle(darkTheme)
+    themeButton.classList.toggle(iconTheme)
+    //we save the theme and the current icon that the user chose
+    localStorage.setItem('selected-theme', getCurrentTheme())
+    localStorage.setItem('selected-icon', getCurrentIcon())
+})
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
+const sr = ScrollReveal({
+    origin: 'top',
+    distance: '60px',
+    duration: '2500',
+    delay: 400,
+    //reset:true, //Animatipns repeat
+})
+
+sr.reveal(`.home__data, .featured__container, .new__container, .join__data, .testimonial__container, .footer`)
+sr.reveal(`.home__images`,{delay: 600})
+sr.reveal(`.services__card`,{interval: 100})
+sr.reveal(`.discount__data`,{origin: 'left'})
+sr.reveal(`.discount__images`,{origin: 'right'})
